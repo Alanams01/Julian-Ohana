@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Julian Ohana - Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c5a059;
+            --dark-blue: #012141;
+            --glass: rgba(255, 255, 255, 0.75);
+        }
+
+        body, html {
+            margin: 0; padding: 0; width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            background-image: url('fond-cote.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: var(--dark-blue);
+        }
+
+        .scroll-container { padding: 20px 10px; min-height: 100vh; background: rgba(0,0,0,0.1); }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            width: 100%; max-width: 360px; margin: 0 auto 20px auto;
+            padding: 35px 20px; box-sizing: border-box;
+            border-radius: 15px; border: 1px solid rgba(255,255,255,0.4);
+            text-align: center; position: relative;
+        }
+
+        .hebrew { font-size: 1.8rem; color: var(--gold); display: block; margin-bottom: 10px; font-family: serif; }
+        .section-label { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+        .main-name { font-family: 'Great Vibes', cursive; font-size: 2.8rem; margin: 10px 0; }
+        
+        .event-info { font-size: 0.85rem; line-height: 1.6; margin-bottom: 15px; }
+        .event-info strong { display: block; font-family: 'Cinzel', serif; font-size: 1rem; margin-bottom: 5px; }
+
+        .divider { width: 40px; height: 1px; background: var(--gold); margin: 20px auto; opacity: 0.5; }
+
+        .waze-btn {
+            display: inline-block; font-size: 0.7rem; text-decoration: none; color: var(--gold);
+            text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+            padding: 8px 20px; border: 1px solid var(--gold); border-radius: 20px; margin-top: 5px;
+        }
+
+        /* FORMULAIRE */
+        h3 { font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 25px; }
+        .group-label { display: block; font-family: 'Cinzel', serif; font-size: 0.75rem; color: var(--gold); text-align: left; margin: 25px 0 10px 0; font-weight: 700; border-bottom: 1px solid rgba(197, 160, 89, 0.2); padding-bottom: 5px; }
+        
+        .input-text { width: 100%; border: none; border-bottom: 1px solid rgba(0,0,0,0.1); padding: 10px 0; background: transparent; outline: none; font-size: 1rem; margin-bottom: 20px; font-family: 'Montserrat'; }
+        
+        .choice-row { display: flex; align-items: center; gap: 30px; margin-bottom: 10px; padding-left: 5px; }
+        .option { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+        
+        .qty-field { width: 100%; border: none; border-bottom: 1px solid var(--gold); padding: 8px 0; margin-top: 5px; background: transparent; outline: none; font-size: 0.9rem; color: var(--dark-blue); }
+
+        .btn-submit { width: 100%; background: var(--dark-blue); color: white; padding: 16px; border: none; border-radius: 8px; font-family: 'Cinzel'; letter-spacing: 2px; margin-top: 30px; cursor: pointer; }
+
+        .hidden { display: none; }
+        input[type="radio"] { accent-color: var(--gold); transform: scale(1.2); }
+    </style>
+</head>
+<body>
+
+<div class="scroll-container">
+
+    <div class="card">
+        <div class="section-label">Mise des</div>
+        <div class="main-name">Téfilines</div>
+        <div class="event-info">
+            <strong>Jeudi 23 Avril 2026 • 09H00</strong>
+            Synagogue Eliahou Hanavi<br>
+            30 Chemin des Sables, Juan les Pins
+        </div>
+        <a href="https://waze.com/ul?q=30+Chemin+des+Sables+Juan+les+Pins" class="waze-btn">🚗 Waze</a>
+    </div>
+
+    <div class="card">
+        <span class="hebrew">קבלת שבת</span>
+        <div class="section-label" style="margin-bottom: 15px;">Chabbat à la Villa Ora</div>
+        
+        <div class="event-info">
+            <strong>Vendredi 24 Avril • 18H30</strong>
+            Office suivi du repas
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="event-info">
+            <strong>Samedi 25 Avril • 13H00</strong>
+            Déjeuner de Chabbat
+        </div>
+
+        <div class="event-info" style="font-size: 0.8rem; opacity: 0.8;">
+            18 Avenue Amiral Courbet, Antibes
+        </div>
+        
+        <a href="https://waze.com/ul?q=18+Avenue+Amiral+Courbet+Antibes" class="waze-btn">🚗 Waze</a>
+    </div>
+
+    <div class="card" id="rsvp">
+        <h3>Votre Réponse</h3>
+        <form id="google-form">
+            <input type="text" name="nom" class="input-text" placeholder="NOM & PRÉNOM" required>
+
+            <label class="group-label">PRÉSENT AUX TÉFILINES</label>
+            <div class="choice-row">
+                <label class="option"><input type="radio" name="tef" value="OUI" onclick="toggle('tef_q', true)"> OUI</label>
+                <label class="option"><input type="radio" name="tef" value="NON" onclick="toggle('tef_q', false)" checked> NON</label>
+            </div>
+            <div id="tef_q" class="hidden">
+                <input type="number" name="nb_tef" class="qty-field" placeholder="Nombre de personnes">
+            </div>
+
+            <label class="group-label">PRÉSENT VENDREDI SOIR</label>
+            <div class="choice-row">
+                <label class="option"><input type="radio" name="soir" value="OUI" onclick="toggle('soir_q', true)"> OUI</label>
+                <label class="option"><input type="radio" name="soir" value="NON" onclick="toggle('soir_q', false)" checked> NON</label>
+            </div>
+            <div id="soir_q" class="hidden">
+                <input type="number" name="nb_soir" class="qty-field" placeholder="Nombre de personnes">
+            </div>
+
+            <label class="group-label">PRÉSENT SAMEDI MIDI</label>
+            <div class="choice-row">
+                <label class="option"><input type="radio" name="midi" value="OUI" onclick="toggle('midi_q', true)"> OUI</label>
+                <label class="option"><input type="radio" name="midi" value="NON" onclick="toggle('midi_q', false)" checked> NON</label>
+            </div>
+            <div id="midi_q" class="hidden">
+                <input type="number" name="nb_midi" class="qty-field" placeholder="Nombre de personnes">
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Confirmer</button>
+        </form>
+        <p id="successMsg" class="hidden" style="color:var(--gold); font-weight:600; margin-top:15px;">Merci ! Votre réponse a été enregistrée.</p>
+    </div>
+</div>
+
+<script>
+    function toggle(id, show) {
+        document.getElementById(id).className = show ? "" : "hidden";
+    }
+
+    const scriptURL = 'TON_URL_SCRIPT_GOOGLE';
+    const form = document.getElementById('google-form');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        document.getElementById('submitBtn').innerText = "Envoi en cours...";
+        let formData = new FormData(form);
+        fetch(scriptURL, { method: 'POST', body: formData})
+            .then(response => {
+                document.getElementById('google-form').classList.add('hidden');
+                document.getElementById('successMsg').classList.remove('hidden');
+            })
+            .catch(error => {
+                alert('Erreur lors de l\'envoi.');
+                document.getElementById('submitBtn').innerText = "Confirmer";
+            });
+    });
+</script>
+
+</body>
+</html>

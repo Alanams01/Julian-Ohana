@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Julian Ohana - Bienvenue</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c5a059;
+            --dark-blue: #012141;
+            --glass: rgba(255, 255, 255, 0.75);
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            background-image: url('fond-cote.jpg'); 
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* LE MÊME ENCADRÉ QUE LES SECTIONS INVITATION */
+        .container {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            width: 85%;
+            max-width: 340px;
+            padding: 50px 25px;
+            position: relative;
+            text-align: center;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+        }
+
+        /* Liseré doré intérieur identique à la page 2 */
+        .container::after {
+            content: "";
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 0.5px solid var(--gold);
+            border-radius: 10px;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3rem;
+            color: var(--dark-blue);
+            margin: 0 0 30px 0;
+            line-height: 1;
+        }
+
+        #countdown {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+        }
+
+        .time-box span {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            font-family: 'Cinzel', serif;
+        }
+
+        .time-box label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .btn-invite {
+            display: inline-block;
+            padding: 18px 20px;
+            background-color: var(--dark-blue);
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.75rem;
+            font-family: 'Cinzel', serif;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            transition: 0.3s ease;
+            box-shadow: 0 5px 15px rgba(1, 33, 65, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-invite:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Julian Ohana</h1>
+
+        <div id="countdown">
+            <div class="time-box"><span id="days">00</span><label>Jours</label></div>
+            <div class="time-box"><span id="hours">00</span><label>Hrs</label></div>
+            <div class="time-box"><span id="minutes">00</span><label>Min</label></div>
+            <div class="time-box"><span id="seconds">00</span><label>Sec</label></div>
+        </div>
+
+        <button class="btn-invite" onclick="window.location.href='premiere.html'">Voir l'invitation</button>
+    </div>
+
+    <script>
+        const targetDate = new Date("April 23, 2026 09:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const gap = targetDate - now;
+
+            if (gap < 0) {
+                document.getElementById("countdown").innerHTML = "<p style='font-family:Cinzel; font-size:0.9rem; letter-spacing:2px; color:var(--gold)'>MAZAL TOV !</p>";
+                return;
+            }
+
+            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
+            
+            document.getElementById("days").innerText = Math.floor(gap / day);
+            document.getElementById("hours").innerText = Math.floor((gap % day) / hour);
+            document.getElementById("minutes").innerText = Math.floor((gap % hour) / minute);
+            document.getElementById("seconds").innerText = Math.floor((gap % minute) / second);
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
