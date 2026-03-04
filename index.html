@@ -1,151 +1,266 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Julian Ohana - Bienvenue</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #c5a059;
-            --dark-blue: #012141;
-            --glass: rgba(255, 255, 255, 0.75);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Bar-Mitzva · Julian Ohana</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c8a96e;--gold2:#e8d5a3;--aqua:#7ecfcf;--aqua2:#b8eaea;
+  --deep:#03101a;--mid:#071e2e;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--deep)}
+body{font-family:'Cormorant Garamond',serif;color:white;cursor:none}
 
-        body, html {
-            margin: 0; padding: 0; height: 100%; width: 100%;
-            font-family: 'Montserrat', sans-serif;
-            background-image: url('fond-cote.jpg'); 
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+#sea-canvas{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block}
 
-        /* LE MÊME ENCADRÉ QUE LES SECTIONS INVITATION */
-        .container {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            width: 85%;
-            max-width: 340px;
-            padding: 50px 25px;
-            position: relative;
-            text-align: center;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            box-sizing: border-box;
-        }
+.grain{
+  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
 
-        /* Liseré doré intérieur identique à la page 2 */
-        .container::after {
-            content: "";
-            position: absolute;
-            top: 12px; left: 12px; right: 12px; bottom: 12px;
-            border: 0.5px solid var(--gold);
-            border-radius: 10px;
-            pointer-events: none;
-            opacity: 0.4;
-        }
+.cur{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--gold);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen}
+.cur-r{position:fixed;width:38px;height:38px;border-radius:50%;border:1px solid rgba(126,207,207,.45);pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
 
-        h1 {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3rem;
-            color: var(--dark-blue);
-            margin: 0 0 30px 0;
-            line-height: 1;
-        }
+/* ── SCENE ── */
+.scene{
+  position:relative;z-index:10;width:100%;height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px;
+}
 
-        #countdown {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 40px;
-        }
+/* ── CARD ── identique aux cards de premiere.html */
+.card{
+  width:100%;max-width:380px;
+  border-radius:28px;padding:48px 34px 42px;
+  text-align:center;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,rgba(3,20,35,.84) 0%,rgba(7,30,46,.77) 100%);
+  border:1px solid rgba(126,207,207,.16);
+  box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  animation:floatIn 1.2s cubic-bezier(.22,1,.36,1) .3s both;
+}
+/* reflet haut — identique premiere.html */
+.card::before{
+  content:'';position:absolute;top:-1px;left:10%;width:80%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(126,207,207,.38),transparent);
+}
+/* coin doré bas-droite — identique premiere.html */
+.card::after{
+  content:'';position:absolute;bottom:0;right:0;width:70px;height:70px;
+  border-bottom:1px solid rgba(200,169,110,.22);
+  border-right:1px solid rgba(200,169,110,.22);
+  border-radius:0 0 28px 0;pointer-events:none;
+}
 
-        .time-box span {
-            display: block;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--dark-blue);
-            font-family: 'Cinzel', serif;
-        }
+.c-glow{
+  position:absolute;top:-70px;right:-70px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(126,207,207,.07) 0%,transparent 70%);
+  pointer-events:none;animation:pGlow 4s ease-in-out infinite alternate;
+}
+.c-glow2{
+  position:absolute;bottom:-80px;left:-80px;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,169,110,.05) 0%,transparent 70%);
+  pointer-events:none;animation:pGlow 5s ease-in-out infinite alternate-reverse;
+}
+@keyframes pGlow{from{opacity:.5;transform:scale(1)}to{opacity:1;transform:scale(1.2)}}
 
-        .time-box label {
-            font-size: 0.55rem;
-            text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
+/* ── TEXTES — mêmes classes que premiere.html ── */
+.c-eye{
+  font-family:'Cinzel',serif;font-size:.57rem;letter-spacing:7px;
+  color:var(--aqua);display:block;margin-bottom:14px;
+}
+.c-heb{
+  font-family:serif;font-size:clamp(2.4rem,9vw,3.2rem);
+  color:var(--gold);display:block;margin-bottom:4px;line-height:1;
+  text-shadow:0 0 60px rgba(200,169,110,.3),0 0 20px rgba(200,169,110,.15);
+}
+.c-name{
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(3.2rem,12vw,5rem);line-height:1.05;display:block;
+  background:linear-gradient(135deg,#fff 25%,var(--gold2) 55%,var(--aqua2) 90%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 4px 20px rgba(126,207,207,.18));
+}
+.c-div{
+  width:44px;height:1px;margin:18px auto 24px;
+  background:linear-gradient(90deg,transparent,var(--aqua),transparent);
+}
 
-        .btn-invite {
-            display: inline-block;
-            padding: 18px 20px;
-            background-color: var(--dark-blue);
-            color: white;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.75rem;
-            font-family: 'Cinzel', serif;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-            transition: 0.3s ease;
-            box-shadow: 0 5px 15px rgba(1, 33, 65, 0.2);
-            position: relative;
-            z-index: 2;
-        }
+/* ── COUNTDOWN ── */
+#countdown{
+  display:flex;align-items:flex-start;justify-content:center;
+  gap:2px;margin-bottom:32px;
+}
+.tb{flex:1;text-align:center}
+.tb-box{
+  display:block;
+  background:linear-gradient(145deg,rgba(3,20,35,.84),rgba(7,30,46,.77));
+  border:1px solid rgba(126,207,207,.12);
+  border-radius:10px;padding:10px 4px 8px;margin-bottom:7px;
+}
+.tb-num{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.4rem,5vw,1.9rem);
+  font-weight:600;color:white;line-height:1;display:block;
+}
+.tb-lbl{
+  font-family:'Cinzel',serif;font-size:.4rem;
+  letter-spacing:3px;color:var(--gold);display:block;
+}
+.tb-sep{
+  font-family:'Cinzel',serif;font-size:1.3rem;
+  color:rgba(126,207,207,.28);padding-top:10px;
+  flex-shrink:0;width:16px;text-align:center;
+}
 
-        .btn-invite:active {
-            transform: scale(0.97);
-        }
-    </style>
+#mazal{
+  display:none;
+  font-family:'Great Vibes',cursive;font-size:2.8rem;
+  color:var(--gold);margin-bottom:26px;
+  text-shadow:0 0 30px rgba(200,169,110,.4);
+}
+
+/* ── BOUTON — identique btn-send de premiere.html ── */
+.btn{
+  display:block;width:100%;padding:18px 20px;
+  background:linear-gradient(135deg,rgba(126,207,207,.12),rgba(200,169,110,.12));
+  border:1px solid rgba(200,169,110,.38);border-radius:14px;color:var(--gold2);
+  text-decoration:none;
+  font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:5px;font-weight:600;
+  cursor:pointer;transition:all .4s ease;position:relative;overflow:hidden;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--aqua),var(--gold));
+  opacity:0;transition:opacity .4s;z-index:0;
+}
+.btn:hover{color:var(--deep);border-color:transparent;box-shadow:0 10px 30px rgba(126,207,207,.2)}
+.btn:hover::before{opacity:1}
+.btn span{position:relative;z-index:1}
+
+.sub{
+  font-family:'Cinzel',serif;font-size:.45rem;
+  letter-spacing:5px;color:rgba(255,255,255,.18);
+  margin-top:20px;display:block;
+}
+
+@keyframes floatIn{
+  from{opacity:0;transform:translateY(50px) scale(.95)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@media(max-width:380px){.card{padding:38px 22px 36px}}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Julian Ohana</h1>
+<div class="cur" id="C"></div>
+<div class="cur-r" id="R"></div>
+<canvas id="sea-canvas"></canvas>
+<div class="grain"></div>
 
-        <div id="countdown">
-            <div class="time-box"><span id="days">00</span><label>Jours</label></div>
-            <div class="time-box"><span id="hours">00</span><label>Hrs</label></div>
-            <div class="time-box"><span id="minutes">00</span><label>Min</label></div>
-            <div class="time-box"><span id="seconds">00</span><label>Sec</label></div>
-        </div>
+<div class="scene">
+  <div class="card">
+    <div class="c-glow"></div>
+    <div class="c-glow2"></div>
 
-        <button class="btn-invite" onclick="window.location.href='premiere.html'">Voir l'invitation</button>
+    <span class="c-eye">Bar-Mitzva · Côte d'Azur</span>
+    <span class="c-heb"></span>
+    <span class="c-name">Julian Ohana</span>
+    <div class="c-div"></div>
+
+    <div id="countdown">
+      <div class="tb">
+        <span class="tb-box"><span class="tb-num" id="days">00</span></span>
+        <span class="tb-lbl">Jours</span>
+      </div>
+      <div class="tb-sep">·</div>
+      <div class="tb">
+        <span class="tb-box"><span class="tb-num" id="hours">00</span></span>
+        <span class="tb-lbl">Heures</span>
+      </div>
+      <div class="tb-sep">·</div>
+      <div class="tb">
+        <span class="tb-box"><span class="tb-num" id="mins">00</span></span>
+        <span class="tb-lbl">Min</span>
+      </div>
+      <div class="tb-sep">·</div>
+      <div class="tb">
+        <span class="tb-box"><span class="tb-num" id="secs">00</span></span>
+        <span class="tb-lbl">Sec</span>
+      </div>
     </div>
 
-    <script>
-        const targetDate = new Date("April 23, 2026 09:00:00").getTime();
+    <div id="mazal">מזל טוב !</div>
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const gap = targetDate - now;
+    <a href="premiere.html" class="btn"><span>✦ &nbsp;VOIR L'INVITATION&nbsp; ✦</span></a>
+    <span class="sub">ANTIBES · JUAN-LES-PINS · AVRIL 2026</span>
+  </div>
+</div>
 
-            if (gap < 0) {
-                document.getElementById("countdown").innerHTML = "<p style='font-family:Cinzel; font-size:0.9rem; letter-spacing:2px; color:var(--gold)'>MAZAL TOV !</p>";
-                return;
-            }
+<script>
+/* ════════════════════════════════════════
+   CANVAS — moteur identique à premiere.html
+════════════════════════════════════════ */
+const CV=document.getElementById('sea-canvas'),cx=CV.getContext('2d');
+let W,H,T=0;
+function resize(){W=CV.width=window.innerWidth;H=CV.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
 
-            const second = 1000, minute = second * 60, hour = minute * 60, day = hour * 24;
-            
-            document.getElementById("days").innerText = Math.floor(gap / day);
-            document.getElementById("hours").innerText = Math.floor((gap % day) / hour);
-            document.getElementById("minutes").innerText = Math.floor((gap % hour) / minute);
-            document.getElementById("seconds").innerText = Math.floor((gap % minute) / second);
-        }
+const WAVES=[
+  {a:32,f:.011,s:1.1,yo:.70,c1:'#040f1c',c2:'#082540'},
+  {a:22,f:.017,s:1.6,yo:.755,c1:'#061526',c2:'#0a2d48'},
+  {a:15,f:.024,s:2.1,yo:.80,c1:'#071a2c',c2:'#0c3350'},
+  {a:10,f:.033,s:2.8,yo:.845,c1:'#082030',c2:'#0d3a58'},
+  {a:7, f:.046,s:3.8,yo:.885,c1:'#092435',c2:'#0f4060'},
+  {a:4, f:.065,s:5.0,yo:.920,c1:'#0a2838',c2:'#124565'},
+];
+const FOAM=Array.from({length:70},()=>({xi:Math.random()*3000,wi:Math.floor(Math.random()*WAVES.length),sz:Math.random()*2+.4,al:Math.random()*.5+.1,ph:Math.random()*Math.PI*2}));
+const SPARKS=Array.from({length:90},()=>({xr:.28+Math.random()*.44,sp:.00025+Math.random()*.0007,ph:Math.random()*Math.PI*2,sz:Math.random()*3+.8,yr:.52+Math.random()*.33}));
+const STARS=Array.from({length:90},(_,i)=>({x:(i*137.508)%100/100,y:(i*97.31)%100/100*.50,r:.4+Math.random()*.8,sp:.00045+Math.random()*.0008,ph:Math.random()*Math.PI*2}));
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-    </script>
+function wpt(w,x,t){return Math.sin(x*w.f+t*w.s)*(w.a)+Math.sin(x*w.f*1.73+t*w.s*.63+1.2)*(w.a*.38)+Math.sin(x*w.f*.6+t*w.s*1.4+2.1)*(w.a*.18)}
+
+function sky(){const g=cx.createLinearGradient(0,0,0,H*.8);g.addColorStop(0,'#010c16');g.addColorStop(.3,'#031422');g.addColorStop(.55,'#061d30');g.addColorStop(.75,'#092538');g.addColorStop(1,'#0d2f45');cx.fillStyle=g;cx.fillRect(0,0,W,H)}
+
+function sunGlow(){const sx=W*.5,sy=H*.08;const gh=cx.createRadialGradient(sx,sy,5,sx,sy,H*.6);gh.addColorStop(0,'rgba(255,230,150,.14)');gh.addColorStop(.25,'rgba(200,169,110,.07)');gh.addColorStop(.6,'rgba(126,207,207,.025)');gh.addColorStop(1,'transparent');cx.fillStyle=gh;cx.fillRect(0,0,W,H);cx.save();cx.globalCompositeOperation='screen';const gc=cx.createLinearGradient(sx,H*.45,sx,H);gc.addColorStop(0,'rgba(200,169,110,.28)');gc.addColorStop(.5,'rgba(200,169,110,.12)');gc.addColorStop(1,'transparent');cx.fillStyle=gc;cx.beginPath();cx.moveTo(sx-50,H*.44);cx.lineTo(sx+50,H*.44);cx.lineTo(sx+200,H);cx.lineTo(sx-200,H);cx.closePath();cx.fill();cx.restore()}
+
+function stars(){cx.save();STARS.forEach(s=>{const al=.15+.55*(.5+.5*Math.sin(T*s.sp+s.ph));cx.globalAlpha=al;cx.fillStyle='white';cx.beginPath();cx.arc(s.x*W,s.y*H,s.r,0,Math.PI*2);cx.fill()});cx.restore()}
+
+function waves(){WAVES.forEach((w,i)=>{const yb=H*w.yo;cx.beginPath();cx.moveTo(0,H);for(let x=0;x<=W;x+=2.5){const dy=wpt(w,x,T);x===0?cx.lineTo(0,yb+dy):cx.lineTo(x,yb+dy)}cx.lineTo(W,H);cx.closePath();const gw=cx.createLinearGradient(0,yb-w.a*1.2,0,H);gw.addColorStop(0,w.c2);gw.addColorStop(1,w.c1);cx.fillStyle=gw;cx.globalAlpha=.92-i*.04;cx.fill();cx.globalAlpha=1;cx.beginPath();for(let x=0;x<=W;x+=2.5){const dy=wpt(w,x,T);x===0?cx.moveTo(0,yb+dy):cx.lineTo(x,yb+dy)}cx.strokeStyle=i<3?`rgba(126,207,207,${.18-i*.04})`:`rgba(200,169,110,${.07-i*.01})`;cx.lineWidth=i===0?1.6:.7;cx.stroke()})}
+
+function foam(){cx.save();FOAM.forEach(f=>{const w=WAVES[f.wi];const sx=((f.xi+T*28)%(W+60)+W+60)%(W+60);const yb=H*w.yo,dy=wpt(w,sx,T);cx.globalAlpha=f.al*(.4+.6*Math.abs(Math.sin(T*.0025+f.ph)));cx.fillStyle='white';cx.beginPath();cx.arc(sx,yb+dy-f.sz*.5,f.sz,0,Math.PI*2);cx.fill()});cx.restore()}
+
+function sparks(){cx.save();cx.globalCompositeOperation='screen';SPARKS.forEach(s=>{const al=.25+.75*Math.abs(Math.sin(T*s.sp+s.ph));const sx=((s.xr*W+T*18*s.sp*2000)%W+W)%W;const sy=s.yr*H+Math.sin(T*s.sp*600+s.ph)*6;const gr=cx.createRadialGradient(sx,sy,0,sx,sy,s.sz*5);gr.addColorStop(0,`rgba(255,245,200,${al*.85})`);gr.addColorStop(1,'transparent');cx.fillStyle=gr;cx.beginPath();cx.arc(sx,sy,s.sz*5,0,Math.PI*2);cx.fill()});cx.restore()}
+
+function photo(){if(window._bg&&window._bg.complete&&window._bg.naturalWidth>0){cx.save();cx.globalAlpha=.08;cx.drawImage(window._bg,0,0,W,H);cx.restore()}}
+
+function loop(ts){T=ts*.001;cx.clearRect(0,0,W,H);sky();photo();sunGlow();stars();waves();foam();sparks();requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+const bg=new Image();bg.src='fond-cote.jpg';bg.onload=()=>{window._bg=bg};
+
+/* ════ CURSEUR ════ */
+const CE=document.getElementById('C'),RE=document.getElementById('R');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function ac(){CE.style.left=mx+'px';CE.style.top=my+'px';rx+=(mx-rx)*.1;ry+=(my-ry)*.1;RE.style.left=rx+'px';RE.style.top=ry+'px';requestAnimationFrame(ac)})();
+if('ontouchstart' in window){CE.style.display='none';RE.style.display='none';document.body.style.cursor='auto'}
+
+/* ════ COUNTDOWN ════ */
+const TARGET=new Date('April 23, 2026 09:00:00').getTime();
+function tick(){
+  const gap=TARGET-Date.now();
+  if(gap<=0){document.getElementById('countdown').style.display='none';document.getElementById('mazal').style.display='block';return}
+  const S=1000,M=S*60,Hr=M*60,D=Hr*24;
+  document.getElementById('days').textContent=String(Math.floor(gap/D)).padStart(2,'0');
+  document.getElementById('hours').textContent=String(Math.floor((gap%D)/Hr)).padStart(2,'0');
+  document.getElementById('mins').textContent=String(Math.floor((gap%Hr)/M)).padStart(2,'0');
+  document.getElementById('secs').textContent=String(Math.floor((gap%M)/S)).padStart(2,'0');
+}
+setInterval(tick,1000);tick();
+</script>
 </body>
 </html>
