@@ -673,25 +673,25 @@ function fadeOut(el, duration, cb) {
 }
 
 /* Bouton musique manuel */
-btn.addEventListener('click', () => {
+btn.addEventListener('click', (e) => {
+  e.stopPropagation(); // ne pas déclencher onFirstInteraction
   if (!playing) { startMusic(); }
   else          { stopMusic();  }
 });
 
-/* Lancement auto au premier clic / tap (seule vraie interaction acceptée par les navigateurs) */
-function onFirstInteraction() {
+/* Lancement auto au premier clic / tap n'importe où SAUF le bouton musique */
+function onFirstInteraction(e) {
   if (scrollPlayed) return;
+  if (e.target === btn || btn.contains(e.target)) return; // ignore le bouton
   scrollPlayed = true;
   startMusic();
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 3000);
   document.removeEventListener('click',    onFirstInteraction);
   document.removeEventListener('touchend', onFirstInteraction);
-  document.removeEventListener('keydown',  onFirstInteraction);
 }
 document.addEventListener('click',    onFirstInteraction);
 document.addEventListener('touchend', onFirstInteraction);
-document.addEventListener('keydown',  onFirstInteraction);
 
 /* Reprendre si le navigateur suspend l'audio */
 audio.addEventListener('pause', () => {
