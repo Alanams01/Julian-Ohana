@@ -62,7 +62,6 @@ body{font-family:'Cormorant Garamond',serif;color:white;cursor:none}
 }
 #music-btn:active { transform: scale(.96); }
 
-/* icône */
 .music-icon {
   position: relative;
   z-index: 1;
@@ -72,7 +71,6 @@ body{font-family:'Cormorant Garamond',serif;color:white;cursor:none}
   transition: opacity .2s;
 }
 
-/* barres d'égaliseur animées (état play) */
 .eq {
   display: flex;
   align-items: flex-end;
@@ -94,14 +92,12 @@ body{font-family:'Cormorant Garamond',serif;color:white;cursor:none}
 @keyframes eq3{ to{ height:18px } }
 @keyframes eq4{ to{ height:6px  } }
 
-/* barres arrêtées (état pause) */
 .eq.paused .eq-bar {
   animation: none;
   height: 4px !important;
   opacity: .45;
 }
 
-/* tooltip */
 #music-btn::after {
   content: attr(data-tip);
   position: absolute;
@@ -123,7 +119,6 @@ body{font-family:'Cormorant Garamond',serif;color:white;cursor:none}
 }
 #music-btn:hover::after { opacity: 1; }
 
-/* halo pulsé quand music joue */
 #music-btn.playing {
   border-color: rgba(200,169,110,.45);
   animation: musicPulse 3s ease-in-out infinite;
@@ -131,6 +126,30 @@ body{font-family:'Cormorant Garamond',serif;color:white;cursor:none}
 @keyframes musicPulse {
   0%,100%{ box-shadow: 0 8px 32px rgba(0,0,0,.5), 0 0 0 0 rgba(200,169,110,.0) }
   50%    { box-shadow: 0 8px 32px rgba(0,0,0,.5), 0 0 0 8px rgba(200,169,110,.08) }
+}
+
+/* ══ SCROLL MUSIC TOAST ══ */
+#scroll-toast {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  z-index: 199;
+  font-family: 'Cinzel', serif;
+  font-size: .42rem;
+  letter-spacing: 3px;
+  color: var(--gold2);
+  background: linear-gradient(145deg, rgba(4,15,30,.95), rgba(2,11,20,.98));
+  border: 1px solid rgba(200,169,110,.25);
+  border-radius: 20px;
+  padding: 9px 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .5s ease, transform .5s ease;
+  pointer-events: none;
+}
+#scroll-toast.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .page{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;padding:0 20px 100px}
@@ -193,6 +212,20 @@ body{font-family:'Cormorant Garamond',serif;color:white;cursor:none}
 .f-inp:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(126,207,207,.1)}
 .f-inp option{background:#03101a}
 
+/* Textarea pour le message */
+.f-textarea{
+  width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(126,207,207,.17);border-radius:12px;
+  padding:14px 18px;color:white;font-family:'Cormorant Garamond',serif;font-size:1rem;
+  outline:none;transition:border-color .3s,box-shadow .3s;resize:vertical;min-height:100px;
+}
+.f-textarea:focus{border-color:var(--aqua);box-shadow:0 0 0 3px rgba(126,207,207,.1)}
+.f-textarea::placeholder{color:rgba(255,255,255,.3)}
+
+.f-optional{
+  font-family:'Cinzel',serif;font-size:.42rem;letter-spacing:3px;
+  color:rgba(126,207,207,.45);margin-left:8px;font-weight:400;
+}
+
 .nb-wrap{
   max-height:0;overflow:hidden;opacity:0;
   transition:max-height .5s cubic-bezier(.4,0,.2,1),opacity .4s ease,margin .4s ease;
@@ -210,11 +243,20 @@ body{font-family:'Cormorant Garamond',serif;color:white;cursor:none}
 .btn-send::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--aqua),var(--gold));opacity:0;transition:opacity .4s;z-index:-1}
 .btn-send:hover{color:var(--deep);border-color:transparent;box-shadow:0 10px 30px rgba(126,207,207,.2)}
 .btn-send:hover::before{opacity:1}
+.btn-send:disabled{opacity:.5;cursor:not-allowed}
 
 .conf{display:none;padding:30px 10px;text-align:center}
 .conf-icon{font-size:3rem;display:block;animation:popIn .6s cubic-bezier(.175,.885,.32,1.275)}
 .conf-txt{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:4px;color:var(--aqua2);margin-top:16px;line-height:2.2}
 @keyframes popIn{from{transform:scale(0) rotate(-15deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+
+/* Erreur envoi */
+.send-error{
+  display:none;margin-top:14px;padding:12px 16px;border-radius:10px;
+  background:rgba(255,80,80,.08);border:1px solid rgba(255,80,80,.2);
+  font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:3px;color:rgba(255,150,150,.8);
+  text-align:center;
+}
 
 footer{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:7px;color:rgba(126,207,207,.22);text-align:center;margin-top:30px;opacity:0;animation:riseUp .8s ease 2.1s forwards}
 
@@ -229,6 +271,9 @@ footer{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:7px;color:rgba(
 
 <canvas id="sea-canvas"></canvas>
 <div class="grain"></div>
+
+<!-- ══ TOAST SCROLL MUSIC ══ -->
+<div id="scroll-toast">♪ MUSIQUE LANCÉE</div>
 
 <!-- ══ BOUTON MUSIQUE ══ -->
 <audio id="audio" src="musique8.mp3" loop preload="none"></audio>
@@ -287,7 +332,6 @@ footer{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:7px;color:rgba(
         <span style="font-size:.85rem;color:rgba(255,255,255,.38)">18 Av. Amiral Courbet, Antibes</span>
       </div>
 
-      <!-- Hôtels à proximité -->
       <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(126,207,207,.12)">
         <span style="font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:5px;color:var(--aqua);display:block;margin-bottom:14px">HÔTELS À PROXIMITÉ</span>
         <div style="font-size:.95rem;line-height:2;color:rgba(255,255,255,.6);font-style:italic">
@@ -310,7 +354,7 @@ footer{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:7px;color:rgba(
       <form id="rsvp">
         <div class="f-grp">
           <label class="f-lbl">Nom &amp; Prénom</label>
-          <input class="f-inp" type="text" placeholder="Votre nom complet" required>
+          <input class="f-inp" id="f-nom" type="text" placeholder="Votre nom complet" required>
         </div>
 
         <div class="f-grp">
@@ -322,7 +366,7 @@ footer{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:7px;color:rgba(
         </div>
         <div class="nb-wrap" id="nb-tef">
           <label class="f-lbl">Nombre de personnes · Téfilines</label>
-          <input class="f-inp" type="number" min="1" max="50" placeholder="ex : 2">
+          <input class="f-inp" id="f-nb-tef" type="number" min="1" max="50" placeholder="ex : 2">
         </div>
 
         <div class="f-grp">
@@ -334,10 +378,24 @@ footer{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:7px;color:rgba(
         </div>
         <div class="nb-wrap" id="nb-shab">
           <label class="f-lbl">Nombre de personnes · Chabbat</label>
-          <input class="f-inp" type="number" min="1" max="50" placeholder="ex : 4">
+          <input class="f-inp" id="f-nb-shab" type="number" min="1" max="50" placeholder="ex : 4">
         </div>
 
-        <button type="submit" class="btn-send">CONFIRMER MA PRÉSENCE</button>
+        <!-- ══ CHAMP MESSAGE FACULTATIF ══ -->
+        <div class="f-grp" style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(126,207,207,.1)">
+          <label class="f-lbl">
+            Message pour Julian
+            <span class="f-optional">— FACULTATIF</span>
+          </label>
+          <textarea
+            class="f-textarea"
+            id="f-message"
+            placeholder="Un mot, un souhait, une pensée pour Julian…"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn-send" id="btn-send">CONFIRMER MA PRÉSENCE</button>
+        <div class="send-error" id="send-error">Une erreur est survenue. Veuillez réessayer.</div>
       </form>
 
       <div class="conf" id="conf">
@@ -351,6 +409,12 @@ footer{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:7px;color:rgba(
 </div>
 
 <script>
+/* ══════════════════════════════════════════
+   ⚠️  REMPLACE cette URL par celle de ton
+   Apps Script déployé en "Application Web"
+══════════════════════════════════════════ */
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzlSjO1uhWwnohS1PZ20QXGE6OueuZKskHDL3h9vdsXiQkR1E9RpG3ZdUeM804CCAX9/exec';
+
 /* ══ CANVAS MER MÉDITERRANÉE ══ */
 const CV=document.getElementById('sea-canvas'),cx=CV.getContext('2d');
 let W,H,T=0;
@@ -520,22 +584,70 @@ function bindSelect(selId,nbId){
 bindSelect('s-tef','nb-tef');
 bindSelect('s-shab','nb-shab');
 
-document.getElementById('rsvp').addEventListener('submit',function(e){
+document.getElementById('rsvp').addEventListener('submit', async function(e){
   e.preventDefault();
-  this.style.transition='opacity .4s';this.style.opacity='0';
-  setTimeout(()=>{
-    this.style.display='none';
-    document.getElementById('conf').style.display='block';
-  },400);
+  const btn = document.getElementById('btn-send');
+  const errEl = document.getElementById('send-error');
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'ENVOI EN COURS…';
+
+  const payload = {
+    nom:          document.getElementById('f-nom').value.trim(),
+    presenceTef:  document.getElementById('s-tef').value,
+    nbTef:        document.getElementById('f-nb-tef').value || '—',
+    presenceShab: document.getElementById('s-shab').value,
+    nbShab:       document.getElementById('f-nb-shab').value || '—',
+    message:      document.getElementById('f-message').value.trim() || '',
+  };
+
+  try {
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    // no-cors → on ne peut pas lire la réponse, on considère que c'est OK
+    this.style.transition='opacity .4s';
+    this.style.opacity='0';
+    setTimeout(()=>{
+      this.style.display='none';
+      document.getElementById('conf').style.display='block';
+    },400);
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = 'CONFIRMER MA PRÉSENCE';
+    errEl.style.display = 'block';
+  }
 });
 
 /* ══ MUSIQUE ══ */
 const audio   = document.getElementById('audio');
 const btn     = document.getElementById('music-btn');
 const eq      = document.getElementById('eq');
+const toast   = document.getElementById('scroll-toast');
 let playing   = false;
+let scrollPlayed = false; // ne lancer qu'une seule fois au scroll
 
-/* Fondu au démarrage */
+function startMusic() {
+  if (playing) return;
+  fadeIn(audio, 1800);
+  playing = true;
+  btn.classList.add('playing');
+  btn.setAttribute('data-tip', 'PAUSE');
+  eq.classList.remove('paused');
+}
+
+function stopMusic() {
+  if (!playing) return;
+  fadeOut(audio, 1200, () => {});
+  playing = false;
+  btn.classList.remove('playing');
+  btn.setAttribute('data-tip', 'MUSIQUE');
+  eq.classList.add('paused');
+}
+
 function fadeIn(el, duration) {
   el.volume = 0;
   el.play().catch(()=>{});
@@ -547,7 +659,6 @@ function fadeIn(el, duration) {
   }, ms);
 }
 
-/* Fondu à l'arrêt */
 function fadeOut(el, duration, cb) {
   const step = 0.02;
   const ms   = duration / (1 / step);
@@ -559,21 +670,22 @@ function fadeOut(el, duration, cb) {
   }, ms);
 }
 
+/* Bouton musique manuel */
 btn.addEventListener('click', () => {
-  if (!playing) {
-    fadeIn(audio, 1800);
-    playing = true;
-    btn.classList.add('playing');
-    btn.setAttribute('data-tip', 'PAUSE');
-    eq.classList.remove('paused');
-  } else {
-    fadeOut(audio, 1200, () => {});
-    playing = false;
-    btn.classList.remove('playing');
-    btn.setAttribute('data-tip', 'MUSIQUE');
-    eq.classList.add('paused');
-  }
+  if (!playing) { startMusic(); }
+  else          { stopMusic();  }
 });
+
+/* Lancement auto au premier scroll (>80px) */
+window.addEventListener('scroll', () => {
+  if (!scrollPlayed && window.scrollY > 80) {
+    scrollPlayed = true;
+    startMusic();
+    /* Affiche le toast */
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+}, { passive: true });
 
 /* Reprendre si le navigateur suspend l'audio */
 audio.addEventListener('pause', () => {
