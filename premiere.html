@@ -326,9 +326,11 @@ footer{font-family:'Cinzel',serif;font-size:.5rem;letter-spacing:7px;color:rgba(
       <div class="c-div"></div>
       <div class="c-body">
         <strong>Vendredi 24 Avril · 18H30</strong><br>
-        Office &amp; Repas de Chabbat<br><br>
+        Office &amp; Repas de Chabbat<br>
+        <span style="font-size:.9rem;color:var(--gold2);font-style:normal;font-family:'Cinzel',serif;letter-spacing:2px">Villa Ora</span><br><br>
         <strong>Samedi 25 Avril · 13H00</strong><br>
-        Déjeuner de Chabbat<br><br>
+        Déjeuner de Chabbat<br>
+        <span style="font-size:.9rem;color:var(--gold2);font-style:normal;font-family:'Cinzel',serif;letter-spacing:2px">Villa Ora</span><br><br>
         <span style="font-size:.85rem;color:rgba(255,255,255,.38)">18 Av. Amiral Courbet, Antibes</span>
       </div>
 
@@ -676,16 +678,20 @@ btn.addEventListener('click', () => {
   else          { stopMusic();  }
 });
 
-/* Lancement auto au premier scroll (>80px) */
-window.addEventListener('scroll', () => {
-  if (!scrollPlayed && window.scrollY > 80) {
-    scrollPlayed = true;
-    startMusic();
-    /* Affiche le toast */
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
-  }
-}, { passive: true });
+/* Lancement auto au premier clic / tap (seule vraie interaction acceptée par les navigateurs) */
+function onFirstInteraction() {
+  if (scrollPlayed) return;
+  scrollPlayed = true;
+  startMusic();
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+  document.removeEventListener('click',    onFirstInteraction);
+  document.removeEventListener('touchend', onFirstInteraction);
+  document.removeEventListener('keydown',  onFirstInteraction);
+}
+document.addEventListener('click',    onFirstInteraction);
+document.addEventListener('touchend', onFirstInteraction);
+document.addEventListener('keydown',  onFirstInteraction);
 
 /* Reprendre si le navigateur suspend l'audio */
 audio.addEventListener('pause', () => {
