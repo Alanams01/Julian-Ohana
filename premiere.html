@@ -596,7 +596,7 @@ function bindSelect(selId,nbId){
 bindSelect('s-tef','nb-tef');
 bindSelect('s-shab','nb-shab');
 
-document.getElementById('rsvp').addEventListener('submit', async function(e){
+document.getElementById('rsvp').addEventListener('submit', function(e){
   e.preventDefault();
   const btn = document.getElementById('btn-send');
   const errEl = document.getElementById('send-error');
@@ -607,31 +607,33 @@ document.getElementById('rsvp').addEventListener('submit', async function(e){
   const payload = {
     nom:          document.getElementById('f-nom').value.trim(),
     presenceTef:  document.getElementById('s-tef').value,
-    nbTef:        document.getElementById('f-nb-tef').value || '—',
+    nbTef:        document.getElementById('f-nb-tef').value || '0',
     presenceShab: document.getElementById('s-shab').value,
-    nbShab:       document.getElementById('f-nb-shab').value || '—',
+    nbShab:       document.getElementById('f-nb-shab').value || '0',
     message:      document.getElementById('f-message').value.trim() || '',
   };
 
-  try {
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    // no-cors → on ne peut pas lire la réponse, on considère que c'est OK
-    this.style.transition='opacity .4s';
-    this.style.opacity='0';
+  // Envoi en GET via paramètres URL — même méthode que le test qui marchait
+  const params = new URLSearchParams(payload).toString();
+  const url = GOOGLE_SCRIPT_URL + '?' + params;
+
+  const ifrm = document.createElement('iframe');
+  ifrm.style.cssText = 'display:none;width:0;height:0;border:0;';
+  document.body.appendChild(ifrm);
+  ifrm.src = url;
+
+  const showSuccess = () => {
+    document.getElementById('rsvp').style.transition='opacity .4s';
+    document.getElementById('rsvp').style.opacity='0';
     setTimeout(()=>{
-      this.style.display='none';
+      document.getElementById('rsvp').style.display='none';
       document.getElementById('conf').style.display='block';
     },400);
-  } catch(err) {
-    btn.disabled = false;
-    btn.textContent = 'CONFIRMER MA PRÉSENCE';
-    errEl.style.display = 'block';
-  }
+  };
+
+  // Succès après chargement ou après 3s max
+  ifrm.onload = function(){ showSuccess(); };
+  setTimeout(showSuccess, 3000);
 });
 
 /* ══ MUSIQUE ══ */
